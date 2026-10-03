@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv
+venv/
+
+# Streamlit
+.streamlit/
+
+# macOS
+.DS_Store
