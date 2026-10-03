@@ -154,7 +154,16 @@ def auto_train():
     if not os.path.exists("dataset.csv"):
         with st.spinner("Generating synthetic dataset …"):
             subprocess.run([sys.executable, "generate_dataset.py"], check=True)
-    if not os.path.exists("model.pkl"):
+
+    # Retrain if model.pkl is missing OR if it was pickled with an
+    # incompatible Python / scikit-learn version (e.g. local vs. cloud).
+    needs_train = not os.path.exists("model.pkl") or not os.path.exists("model_metrics.json")
+    if not needs_train:
+        try:
+            joblib.load("model.pkl")
+        except Exception:
+            needs_train = True
+    if needs_train:
         with st.spinner("Training ML models (first run — ~30 s) …"):
             subprocess.run([sys.executable, "train_model.py"], check=True)
 

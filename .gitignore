@@ -11,3 +11,5 @@ venv/
 
 # macOS
 .DS_Store
+model.pkl
+model_metrics.json
